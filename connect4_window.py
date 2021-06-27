@@ -28,9 +28,7 @@ class Connect4Window(BoardWindow):
 
     def draw_cell(self, screen, player, rect):
         radius = int(rect.width/2)
-        center = rect.left + radius, rect.top + radius
-        # gfxdraw.aacircle(screen, *center, radius, CELL_COLORS[player])
-        # gfxdraw.filled_circle(screen, *center, radius, CELL_COLORS[player])
+        center = self.center_for_rect(rect)
         circle(screen, CELL_COLORS[player], center, radius)
 
 

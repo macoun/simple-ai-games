@@ -1,5 +1,6 @@
 from types import SimpleNamespace
 import pygame
+from pygame.draw import line
 
 
 class BoardWindow:
@@ -44,7 +45,7 @@ class BoardWindow:
                     self.reset()
                     self.draw(screen)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    cell = self._cell_from_mouse_pos()
+                    cell = self.cell_from_mouse_pos()
                     if cell and not self.state.gameover():
                         action = self.action_for_cell(cell)
                         self.move(action)
@@ -55,14 +56,19 @@ class BoardWindow:
     def draw(self, screen):
         self.draw_background(screen)
         for i, value in enumerate(self.state.cells):
-            r, c = divmod(i, self.cols)
-            rect = SimpleNamespace(
-                left=self.padding_h + c*self.grid_size + self.cell_padding,
-                top=self.padding_v + r*self.grid_size + self.cell_padding,
-                width=self.grid_size - 2*self.cell_padding,
-                height=self.grid_size - 2*self.cell_padding)
-
+            rect = self.rect_for_cell(i)
             self.draw_cell(screen=screen, player=value, rect=rect)
+        self.draw_strikes(screen)
+
+    def draw_strikes(self, screen):
+        for rule, _ in self.state.strikes():
+            rect1 = self.rect_for_cell(rule[0])
+            rect2 = self.rect_for_cell(rule[-1])
+            start_pos = self.center_for_rect(rect1)
+            end_pos = self.center_for_rect(rect2)
+            line(screen,
+                 start_pos=start_pos, end_pos=end_pos,
+                 color=(255, 255, 255), width=2)
 
     def action_for_cell(self, pos):
         ...
@@ -73,8 +79,20 @@ class BoardWindow:
     def draw_cell(self, screen, player, rect):
         ...
 
-    def _cell_from_mouse_pos(self):
+    def cell_from_mouse_pos(self):
         x, y = pygame.mouse.get_pos()
         col, row = x//self.grid_size, y//self.grid_size
         if 0 <= col < self.cols and 0 <= row < self.rows:
             return SimpleNamespace(col=col, row=row)
+
+    def center_for_rect(self, rect):
+        w_half = int(rect.width/2)
+        return rect.left + w_half, rect.top + w_half
+
+    def rect_for_cell(self, idx):
+        r, c = divmod(idx, self.cols)
+        return SimpleNamespace(
+            left=self.padding_h + c*self.grid_size + self.cell_padding,
+            top=self.padding_v + r*self.grid_size + self.cell_padding,
+            width=self.grid_size - 2*self.cell_padding,
+            height=self.grid_size - 2*self.cell_padding)

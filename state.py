@@ -1,4 +1,7 @@
 
+from typing import Counter
+
+
 symbols = ['.', 'X', 'O']
 
 
@@ -19,14 +22,18 @@ class State:
         return self.winner() != 0 or len(self.actions()) == 0
 
     def winner(self):
-        return int(self.score()/len(self._rules[0]))
+        strikes = list(self.strikes())
+        if len(strikes) == 0:
+            return 0
+        _, winners = zip(*strikes)
+        value, _ = Counter(winners).most_common(1)[0]
+        return value
 
-    def score(self):
+    def strikes(self):
         for rule in self._rules:
             score = sum(self.cells[i] for i in rule)
             if abs(score) == len(rule):
-                return score
-        return 0
+                yield rule, self.cells[rule[0]]
 
     def rows(self):
         return [self.cells[i*self._cols:(i+1)*self._cols]
