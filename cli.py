@@ -6,7 +6,7 @@ from game import play, simulate
 def cli_play_tictactoe(sim_count):
     from tictactoe import TicTacToeState
     from tictactoe_model import TicTacToeModel
-    from tictactow_window import TicTacToeWindow
+    from tictactoe_window import TicTacToeWindow
 
     model = TicTacToeModel()
     player = NNPlayer(model)

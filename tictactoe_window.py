@@ -13,11 +13,11 @@ GRID_COLOR = (200, 200, 200)
 
 class TicTacToeWindow(BoardWindow):
 
-    def __init__(self, state=None, autoplayer=None):
+    def __init__(self, cols=3, rows=3, state=None, autoplayer=None):
         super().__init__(
             state=state or TicTacToeState(),
-            autoplayer=autoplayer or MiniMaxPlayer(5),
-            cols=3, rows=3,
+            autoplayer=autoplayer or MiniMaxPlayer(3),
+            cols=cols, rows=rows,
             grid_size=70, cell_padding=9,
             padding_v=0, padding_h=0)
 
@@ -27,10 +27,10 @@ class TicTacToeWindow(BoardWindow):
     def draw_background(self, screen):
         screen.fill(BOARD_COLOR)
         gs = self.grid_size
-        line(screen, GRID_COLOR, (gs, 0), (gs, 3*gs))
-        line(screen, GRID_COLOR, (2*gs, 0), (2*gs, 3*gs))
-        line(screen, GRID_COLOR, (0, gs), (3*gs, gs))
-        line(screen, GRID_COLOR, (0, 2*gs), (3*gs,  2*gs))
+        for i in range(1, self.cols):
+            line(screen, GRID_COLOR, (i*gs, 0), (i*gs, self.rows*gs))
+        for j in range(1, self.rows):
+            line(screen, GRID_COLOR, (0, j*gs), (self.cols*gs, j*gs))
 
     def draw_cell(self, screen, player, rect):
         color = CELL_COLORS[player]
