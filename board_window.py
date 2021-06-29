@@ -5,7 +5,7 @@ from pygame.draw import line
 
 class BoardWindow:
 
-    def __init__(self, state, autoplayer, cols, rows, grid_size, padding_v, padding_h, cell_padding):
+    def __init__(self, state, autoplayer, cols, rows, grid_size, padding_v, padding_h, cell_padding, title):
         self.cols = cols
         self.rows = rows
         self.state = state
@@ -15,6 +15,7 @@ class BoardWindow:
         self.padding_v = padding_v
         self.padding_h = padding_h
         self.cell_padding = cell_padding
+        self.title = title
 
     def move(self, action):
         state = self.state
@@ -35,7 +36,9 @@ class BoardWindow:
             size=(self.grid_size * self.cols + 2 * self.padding_h,
                   self.grid_size * self.rows + 2*self.padding_v))
 
+        pygame.display.set_caption(self.title)
         self.draw(screen)
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

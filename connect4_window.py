@@ -14,6 +14,7 @@ class Connect4Window(BoardWindow):
 
     def __init__(self, state=None, autoplayer=None):
         super().__init__(
+            title='Connect 4',
             state=state or Connect4State(),
             autoplayer=autoplayer or MiniMaxPlayer(3),
             cols=7, rows=6,

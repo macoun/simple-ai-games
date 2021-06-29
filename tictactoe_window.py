@@ -15,6 +15,7 @@ class TicTacToeWindow(BoardWindow):
 
     def __init__(self, cols=3, rows=3, state=None, autoplayer=None):
         super().__init__(
+            title='Tic Tac Toe',
             state=state or TicTacToeState(),
             autoplayer=autoplayer or MiniMaxPlayer(3),
             cols=cols, rows=rows,
