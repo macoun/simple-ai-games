@@ -1,6 +1,6 @@
 from pygame.gfxdraw import aacircle
 from pygame.draw import line
-from tictactoe import TicTacToeState
+from tictactoe_state import TicTacToeState
 from players import MiniMaxPlayer
 from board_window import BoardWindow
 

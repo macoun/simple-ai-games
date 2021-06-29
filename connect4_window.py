@@ -1,6 +1,6 @@
 
 from pygame.draw import circle
-from connect4 import Connect4State
+from connect4_state import Connect4State
 from players import MiniMaxPlayer
 from board_window import BoardWindow
 
