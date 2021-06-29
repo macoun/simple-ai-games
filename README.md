@@ -2,8 +2,8 @@
 
 Clone repository and change to the cloned source dir.
 
-    git clone ...
-    cd ...
+    git clone https://github.com/macoun/simple-ai-games.git
+    cd simple-ai-games
 
 Create and source a virtual env. (Example for macos/linux)
 
