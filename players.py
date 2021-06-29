@@ -1,16 +1,27 @@
+from abc import ABC, abstractmethod
 from random import randint
+from numpy import argmax
 
 
-class Player:
+class Player(ABC):
+
+    @abstractmethod
+    def next_action(self, state):
+        ...
+
+
+class IndecisivePlayer(Player):
+
     def next_action(self, state):
         moves = self.next_actions(state)
         return moves[randint(0, len(moves) - 1)]
 
+    @abstractmethod
     def next_actions(self, state):
-        raise NotImplementedError()
+        ...
 
 
-class RandomPlayer(Player):
+class RandomPlayer(IndecisivePlayer):
     def next_actions(self, state):
         return state.actions()
 
@@ -30,7 +41,7 @@ class ConsolePlayer(Player):
                 pass
 
 
-class MiniMaxPlayer(Player):
+class MiniMaxPlayer(IndecisivePlayer):
     def __init__(self, lookahead):
         assert lookahead > 0
         self.lookahead = lookahead
@@ -61,19 +72,9 @@ class NNPlayer(Player):
         self.model = model
 
     def next_action(self, state):
-        import numpy as np
         actions = state.actions()
         current_player = state.player()
         states = [state.move(action).cells for action in actions]
-        probs = [p[current_player] for p in self.model.predict(states)]
-        return actions[np.argmax(probs)]
-
-    def next_actions(self, state):
-        actions = state.actions()
-        states = [state.move(action).cells for action in actions]
-        winners = self.model.predict(states)
-        current_player = state.player()
-        winning_moves = [action
-                         for action, winner in zip(actions, winners)
-                         if winner == current_player]
-        return winning_moves or actions
+        probs = self.model.predict(states)
+        player_probs = [p[current_player] for p in probs]
+        return actions[argmax(player_probs)]
