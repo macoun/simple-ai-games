@@ -1,3 +1,8 @@
+# Simple AI Games
+
+This project demonstrates a simple example hot to train neural networks 
+that can play simple games like TicTacToe and Connect 4.
+
 ## Setup
 
 Clone repository and change to the cloned source dir.
@@ -30,7 +35,7 @@ To play the game in your terminal, use the `--mode console` option.
 
 ![connect4-console](images/connect4-console.png)
 
-## Play Tic Tac Toe
+## Play TicTacToe
 
 The entry point is _tictactoe.py_.
 
