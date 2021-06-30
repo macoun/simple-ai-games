@@ -85,7 +85,7 @@ but the result is a pretty challanging Connect 4 game.
 The minimax player uses the minimax algorithm to find the next 
 best moves by traversing a tree of game states. 
 
-To play against a minima player, use the option `--player minimax`.
+To play against a minimax player, use the option `--player minimax`.
 
     python -m connect4 --player minimax
 
