@@ -1,5 +1,5 @@
 import click
-from players import ConsolePlayer, MiniMaxPlayer, NNPlayer
+from players import ConsolePlayer, MiniMaxPlayer, NNPlayer, RandomPlayer
 from game import play, simulate
 from connect4_state import Connect4State
 
@@ -29,8 +29,11 @@ def connect4(simulations, mode, ai_player, epochs, lookahead):
     if ai_player == 'nn':
         from connect4_model import Connect4Model
         model = Connect4Model()
-        plays = simulate(state, simulations)
+        ###generate trainings data
+        plays = simulate(state, simulations, player1=RandomPlayer(), player2=MiniMaxPlayer(1))
+        ### train model
         model.train(plays, epochs=epochs)
+
         autoplayer = NNPlayer(model)
     else:
         autoplayer = MiniMaxPlayer(lookahead=lookahead)

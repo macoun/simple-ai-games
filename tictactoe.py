@@ -1,6 +1,7 @@
 import click
-from players import ConsolePlayer, MiniMaxPlayer, NNPlayer
+from players import ConsolePlayer, MiniMaxPlayer, NNPlayer, RandomPlayer
 from game import play, simulate
+from tictactoe_model_cnn import TicTacToeModelCnn
 from tictactoe_state import TicTacToeState
 
 
@@ -28,9 +29,9 @@ def tictactoe(simulations, mode, ai_player, epochs, lookahead):
 
     if ai_player == 'nn':
         from tictactoe_model import TicTacToeModel
-        model = TicTacToeModel()
-        plays = simulate(state, simulations)
-        model.train(plays, epochs=epochs)
+        model = TicTacToeModelCnn()
+        plays = simulate(state, simulations, player1=RandomPlayer(), player2=MiniMaxPlayer(1))
+        model.train(plays, epochs=epochs, batch_size = 100)
         autoplayer = NNPlayer(model)
     else:
         autoplayer = MiniMaxPlayer(lookahead=lookahead)
